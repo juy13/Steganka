@@ -38,7 +38,7 @@ sample_rate = c_int(-1)
 sample_rate_p = pointer(sample_rate)
 
 bits_per_sample = c_int(-1)
-bits_per_sample_p = pointer(bits_per_sample)
+bits_per_sample_p = pointer(bits_per_sample) 
 
 #workLib.print()
 workLib.get_params(rc_p, filename_c, len_item, sample_rate_p, bits_per_sample_p)
