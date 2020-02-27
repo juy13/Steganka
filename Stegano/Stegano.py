@@ -5,12 +5,12 @@ import soundfile as sf
 import numpy as np
 import math
 
-def first_step(m):
+def first_step(M):
 	a = 1.1
 	data, fd = sf.read('90.wav')
 	C = data
 	rowsC = len(data)
-	Nm = len(m)
+	Nm = len(M)
 	Lm = 8 * Nm
 	d0 = 20
 	d1 = 30
@@ -36,6 +36,7 @@ def first_step(m):
 	T = Nb - tau
 	
 	fp, u, fz = module_1(tau, T)
+	a = module_2(M, Lm)
 	
 	
 
@@ -47,17 +48,24 @@ def module_1(tau_c, T_c):
 		if tau_c == 0:
 			fp[0] = 0
 
-	u = np.array(1 for i in raange(T_c - tau_c))
+	u = np.array(1 for i in range(T_c - tau_c))
 
 	fz = np.zeros(2 * tau_c)
 	for n in range(2 * tau_c):
 		if tau_c > 0:
-			fz[n] = (i - tau_c)/(-tau_c)
+			fz[n] = (n - tau_c)/(-tau_c)
 		if tau_c == 0:
 			fz[0] = 0
 
 	return fp, u, fz
 
+def module_2(msg_c, Lm_c):
+	a_bytes = bytes(msg_c, "utf-8")
+	res = ' 0'.join(format(ord(i), 'b') for i in msg_c)
+	res = res.replace(' ', '') 
+	res = '0' + res
+	print(str(res), Lm_c)
+	return mu
 		
 
 
@@ -90,7 +98,7 @@ print(bits_per_sample_p.contents.value)
 
 Q = bits_per_sample_p.contents.value
 fd = sample_rate_p.contents.value
-first_step("Опасность")
+first_step("Name")
 
 
 
