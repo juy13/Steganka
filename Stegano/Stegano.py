@@ -59,19 +59,25 @@ def module_1(tau_c, T_c):
 
 	return fp, u, fz
 
-def module_2(msg_c, Lm_c, fp_c, fz_c, tau_c):
+def module_2(msg_c, Lm_c, fp_c, fz_c, tau_c, u_c):
 	a_bytes = bytes(msg_c, "utf-8")
 	m_vec = ' 0'.join(format(ord(i), 'b') for i in msg_c)
 	m_vec = m_vec.replace(' ', '') 
 	m_vec = '0' + m_vec
 	print(str(res), Lm_c)
-	for i in m_vec:
-		if m_vec[i] == 0:
-			i = 0
-		if m_vec[i] == 1:
-			i = 1
+	if m_vec[0] == 0:
+		mu1 = np.zeros(tau_c - (round(tau_c / 2) + 1) + len(u_c))
+	if m_vec[0] == 1:
+		mu1 = np.zeros(tau_c - (round(tau_c / 2) + 1) + len(u_c))
+		i = tau_c - (round(tau_c / 2) + 1)
+		while i < len(u_c):
+			mu1[i] = 1
+			i += 1
+	
+	#for m in range(Lm_c):
+		
 
-	return mu
+	return mu1, mu2
 		
 def submatrix(f_c, r1_c, r2_c, c1_c, c2_c):
 	k = round((r2_c / 2) + 1)
