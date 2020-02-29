@@ -59,7 +59,7 @@ def module_1(tau_c, T_c):
 
 	return fp, u, fz
 
-def module_2(msg_c, Lm_c, fp_c, fz_c, tau_c, u_c):
+def module_2(msg_c, Lm_c, fp_c, fz_c, tau_c, u_c, C_c):
 	a_bytes = bytes(msg_c, "utf-8")
 	m_vec = ' 0'.join(format(ord(i), 'b') for i in msg_c)
 	m_vec = m_vec.replace(' ', '') 
@@ -74,13 +74,31 @@ def module_2(msg_c, Lm_c, fp_c, fz_c, tau_c, u_c):
 			mu1[i] = 1
 			i += 1
 	
-	#for m in range(Lm_c):
-		
+
+	for m in range(Lm_c):
+		if m == 0:
+			continue
+		if m_vec[m] != m_vec[m - 1] and m_vec[m] == 0 ^ m_vec[m]:
+			mu1 = stack(mu1, fz_c, 0 * u_c)
+		if m_vec[m] == m_vec[m - 1] and m_vec[m] == 0 ^ m_vec[m]:
+			mu1 = stack(mu1, 0 * fz_c, 0 * u_c)
+		if m_vec[m] != m_vec[m - 1] and m_vec[m] == 1 ^ m_vec[m]:
+			mu1 = stack(mu1, fp_c, u_c)
+		if m_vec[m] != m_vec[m - 1] and m_vec[m] == 0 ^ m_vec[m]:
+			mu1 = stack(mu1, 0 * fp_c, u_c)
+	
+	while len(mu1) <= len(C_c):
+		if m_vec[Lm_c - 1] == 0:
+			mu1 = stack(mu1, 0 * fp_c, 0 * u)
+		if m_vec[Lm_c - 1] == 1:
+			mu1 = stack(mu1, 0 * fp_c, u)
 
 	return mu1, mu2
 		
-def submatrix(f_c, r1_c, r2_c, c1_c, c2_c):
-	k = round((r2_c / 2) + 1)
+def stack(c1, c2, c3):
+	c2.np.append(c3)
+	c1.np.append(c2)
+	return c1
 	
 
 
