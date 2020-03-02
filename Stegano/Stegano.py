@@ -36,7 +36,8 @@ def first_step(M):
 	T = Nb - tau
 	
 	fp, u, fz = module_1(tau, T)
-	a = module_2(M, Lm)
+	mu1, mu2, m_vec = module_2(M, Lm)
+	
 	
 	
 
@@ -92,9 +93,35 @@ def module_2(msg_c, Lm_c, fp_c, fz_c, tau_c, u_c, C_c):
 			mu1 = stack(mu1, 0 * fp_c, 0 * u)
 		if m_vec[Lm_c - 1] == 1:
 			mu1 = stack(mu1, 0 * fp_c, u)
+	
+	#mu2 = np.zero()	// wtf
 
-	return mu1, mu2
+	return mu1, mu2, m_vec
+
+def module_3(m_vec_c, Lm_c, Nb_c, SC0_c, mu0_c):
+	for m in range(Lm_c):
+		if m_vec_c[m] == 0:
+			S = submatrix(SC0_c, (Nb_c*(m - 1) + 1), Nb_c * m, 1, 1)
+			mu = submatrix(mu0_c, (Nb_c*(m - 1) + 1), Nb_c * m, 1, 1)
+			for n in range(Nb_c):
+				Sn[n] = S[n] * mu[n]
+		if m_vec_c[m] == 0:
+			S = submatrix(SC1_c, (Nb_c*(m - 1) + 1), Nb_c * m, 1, 1)
+			mu = submatrix(mu1_c, (Nb_c*(m - 1) + 1), Nb_c * m, 1, 1)
+			for n in range(Nb_c):
+				Sn[n] = S[n] * mu[n]
+		if m == 1:
+			S = Sn
+		if m > 1:
+			S = stack(S, Sn)
 		
+	
+		
+
+def submatrix():
+	return False
+	
+
 def stack(c1, c2, c3):
 	c2.np.append(c3)
 	c1.np.append(c2)
