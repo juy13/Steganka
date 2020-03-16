@@ -12,8 +12,8 @@ def first_step(M):
 	rowsC = len(data)
 	Nm = len(M)
 	Lm = 8 * Nm
-	d0 = 20
-	d1 = 30
+	d0 = 2000
+	d1 = 3000
 	C0 = np.array([0 for x in range(d0)])
 	C0 = np.concatenate((C0, C), axis=0) * a
 	C1 = np.array([0 for x in range(d1)])
@@ -191,7 +191,7 @@ print(bits_per_sample_p.contents.value)
 
 Q = bits_per_sample_p.contents.value
 fd = sample_rate_p.contents.value
-first_step("Name")
+first_step("Опасность")
 
 
 
