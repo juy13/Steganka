@@ -40,7 +40,7 @@ def first_step(M):
 	
 	S = module_3(m_vec_bin, Lm, Nb, SC1, SC0, mu1, mu0)
 	
-	ans = stack(ans, S, C)
+	ans = stack(S, C, None)
 	sf.write('ans.wav', ans, fd)
 	
 	
@@ -107,21 +107,22 @@ def module_2(msg_c, Lm_c, fp_c, fz_c, tau_c, u_c, len_C_c):
 
 #как бы все нооорм, ебошь дальше
 def module_3(m_vec_c, Lm_c, Nb_c, SC1_c, SC0_c, mu1_c, mu0_c):
+	Sn = np.zeros(Nb_c)
 	for m in range(Lm_c):
 		if m_vec_c[m] == 0:
-			S = submatrix(SC0_c, (Nb_c*(m - 1) + 1), Nb_c * m, 1, 1)
-			mu = submatrix(mu0_c, (Nb_c*(m - 1) + 1), Nb_c * m, 1, 1)
-			for n in range(Nb_c):
+			S = submatrix(SC0_c, (Nb_c*(m) + 1), Nb_c * (m + 1), 1, 1)
+			mu = submatrix(mu0_c, (Nb_c*(m) + 1), Nb_c * (m + 1), 1, 1)
+			for n in range(Nb_c - 1):
 				Sn[n] = S[n] * mu[n]
-		if m_vec_c[m] == 0:
-			S = submatrix(SC1_c, (Nb_c*(m - 1) + 1), Nb_c * m, 1, 1)
-			mu = submatrix(mu1_c, (Nb_c*(m - 1) + 1), Nb_c * m, 1, 1)
-			for n in range(Nb_c):
+		if m_vec_c[m] == 1:
+			S = submatrix(SC1_c, (Nb_c*(m) + 1), Nb_c * (m + 1), 1, 1)
+			mu = submatrix(mu1_c, (Nb_c*(m) + 1), Nb_c * (m + 1), 1, 1)
+			for n in range(Nb_c - 1):
 				Sn[n] = S[n] * mu[n]
 		if m == 1:
 			S = Sn
 		if m > 1:
-			S = stack(S, Sn)
+			S = stack(S, Sn, None)
 		
 	return S
 	
