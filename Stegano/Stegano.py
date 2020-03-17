@@ -42,6 +42,11 @@ def first_step(M):
 	
 	ans = stack(S, C, None)
 	sf.write('ans.wav', ans, fd)
+
+
+	data2, fd2 = sf.read('ans.wav')
+	module_out(Nb, data2, d1, d0)
+	
 	
 	
 	
@@ -161,7 +166,15 @@ def stack(c1, c2, c3):
 	c1 = np.append(c1, c2)
 	return c1
 	
+def module_out(Nb_c, S_c, d1_c, d0_c):
+	m = 0
+	while (Nb_c * m < len(S_c)):
+		s = submatrix(S_c, (Nb_c * m + 1), (Nb_c * (m + 1)), 1, 1)
+		F = np.fft.fft(s)
+		L = 2 * np.log(F + pow(10, -20))
+		AC = np.fft.ifft(L)
 
+	return False
 
 #print(str2bin("Опасность"))
 filename = '90.wav'
