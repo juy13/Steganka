@@ -3,7 +3,8 @@ import sys
 from ctypes import *
 import soundfile as sf
 import numpy as np
-import math
+import math	
+import random
 
 def first_step(M):
 	a = 1.1
@@ -12,8 +13,8 @@ def first_step(M):
 	rowsC = len(data)
 	Nm = len(M)
 	Lm = 8 * Nm
-	d0 = 2000
-	d1 = 3000
+	d0 = 20
+	d1 = 30
 	C0 = np.array([0 for x in range(d0)])
 	C0 = np.concatenate((C0, C), axis=0) * a
 	C1 = np.array([0 for x in range(d1)])
@@ -141,16 +142,52 @@ def str2bin(text):
 			continue
 		answ.append(int(ans[i]))
 	return answ
+	
+def module_out(Nb_c, S_c, d1_c, d0_c):
+	m = 1
+	B = []
+	M_vec = []
+	while (Nb_c * m < len(S_c)):
+		s = submatrix(S_c, ((Nb_c * (m - 1)) + 1), (Nb_c * (m)), 1, 1)
+		F = np.fft.fft(s)
+		L = 2 * np.log(F + pow(10, -20))
+		AC = np.fft.ifft(L)
+		ans0 = sum_S(d0_c, AC)
+		ans1 = sum_S(d1_c, AC)
+		if ans1 > ans0:
+			B.append(1)
+		if ans0 > ans1:
+			B.append(0)
+		if ans0 == ans1:
+			B.append(random.random())
+		m += 1
+		
+	j = 1
+	while j < (int(len(B) / 8)):
+		M_vec.append(submatrix(B, (8 * j - 7), 8 * j, 1, 1))
+		j += 1
+	
+	return False
+
+
+def sum_S(d_c, AC_c):
+	j = d_c - 2
+	ans = 0
+	while j < d_c + 2:
+		ans += abs(AC_c[j])
+		j += 1
+	return ans
+	
 
 def submatrix(array_c, di1, di2, dj1, dj2):
 	di1 -= 1
 	di2 -= 1
 	dj1 -= 1
 	dj2 -= 1
-	out = np.empty(di2 - di1)
+	out = np.empty(di2 - di1 + 1)
 	ixgrid = np.ix_([di1, di2])#, [dj1, dj2])
 	i = 0
-	while(di1 < di2):
+	while(di1 <= di2):
 		out[i] = array_c[di1]
 		di1 += 1
 		i += 1
@@ -165,16 +202,6 @@ def stack(c1, c2, c3):
 	c2 = np.append(c2, c3)
 	c1 = np.append(c1, c2)
 	return c1
-	
-def module_out(Nb_c, S_c, d1_c, d0_c):
-	m = 0
-	while (Nb_c * m < len(S_c)):
-		s = submatrix(S_c, (Nb_c * m + 1), (Nb_c * (m + 1)), 1, 1)
-		F = np.fft.fft(s)
-		L = 2 * np.log(F + pow(10, -20))
-		AC = np.fft.ifft(L)
-
-	return False
 
 #print(str2bin("Опасность"))
 filename = '90.wav'
@@ -204,7 +231,7 @@ print(bits_per_sample_p.contents.value)
 
 Q = bits_per_sample_p.contents.value
 fd = sample_rate_p.contents.value
-first_step("Опасность")
+first_step("HELL")
 
 
 
