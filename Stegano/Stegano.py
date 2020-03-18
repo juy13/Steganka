@@ -91,7 +91,7 @@ def module_2(msg_c, Lm_c, fp_c, fz_c, tau_c, u_c, len_C_c):
 	for m in range(Lm_c):
 		if m == 0:
 			continue
-		if m_vec[m] != m_vec[m - 1] and m_vec[m] == 0 ^ m_vec[m]:	#придумать, как перегнать все в массив
+		if m_vec[m] != m_vec[m - 1] and m_vec[m] == 0 ^ m_vec[m]:	
 			mu1 = stack(mu1, fz_c, 0 * u_c)
 		if m_vec[m] == m_vec[m - 1] and m_vec[m] == 0 ^ m_vec[m]:
 			mu1 = stack(mu1, 0 * fz_c, 0 * u_c)
@@ -111,7 +111,7 @@ def module_2(msg_c, Lm_c, fp_c, fz_c, tau_c, u_c, len_C_c):
 	return mu1, mu2, m_vec
 
 
-#как бы все нооорм, ебошь дальше
+
 def module_3(m_vec_c, Lm_c, Nb_c, SC1_c, SC0_c, mu1_c, mu0_c):
 	Sn = np.zeros(Nb_c)
 	for m in range(Lm_c):
